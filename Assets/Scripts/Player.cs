@@ -9,6 +9,20 @@ public class Player : MonoBehaviour
     public float speed = 5.0f;
 
     private bool _laserActive;
+
+    public AudioClip laserSound;
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            // If none found, create one
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+        }
+    }
     void Update()
     {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -32,6 +46,7 @@ public class Player : MonoBehaviour
         Projectile projectile = Instantiate(this.laserPrefab, this.transform.position, Quaternion.identity);
             projectile.destroyed += LaserDestroyed;
             _laserActive = true;
+            _audioSource.PlayOneShot(laserSound);
         }
 
     }

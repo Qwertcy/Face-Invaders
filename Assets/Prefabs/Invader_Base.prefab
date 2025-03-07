@@ -133,7 +133,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!114 &-2540801722977318457
 MonoBehaviour:
@@ -149,3 +149,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationSprites: []
   animationTime: 1
+  deathSound: {fileID: 8300000, guid: 4588ede4ddc4ba74f8b86a140eb22756, type: 3}
+  explosionPrefab: {fileID: 2593184635326148394, guid: 7d039a1c3c67e9c49899c570ea89ab07, type: 3}

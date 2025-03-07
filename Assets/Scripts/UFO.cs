@@ -6,6 +6,9 @@ public class UFO : MonoBehaviour
     public float speed = 5.0f;
     private bool movingRight = true; //direction tracker
 
+    private int scoreValue => Random.Range(20, 51) * 10;
+
+
     private void Start()
     {
         StartCoroutine(UFOMovementLoop()); //continously manages ufo spawning and movement
@@ -47,6 +50,7 @@ public class UFO : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
+            ScoreManager.instance.AddPoints(scoreValue);
             this.gameObject.SetActive(false);
 
         }

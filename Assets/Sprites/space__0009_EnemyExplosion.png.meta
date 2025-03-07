@@ -67,7 +67,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -300,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -309,7 +309,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      space__0009_EnemyExplosion_0: 1592950535861316487
+      space__0009_EnemyExplosion_1: 2495008787397970701
+      space__0009_EnemyExplosion_2: -6949890747143807879
+      space__0009_EnemyExplosion_3: -9107809139280544854
+      space__0009_EnemyExplosion_4: -1686333567061969450
+      space__0009_EnemyExplosion_5: -7218864881843897420
+      space__0009_EnemyExplosion_6: 8940712758957985792
+      space__0009_EnemyExplosion_7: 6239742322400296526
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
