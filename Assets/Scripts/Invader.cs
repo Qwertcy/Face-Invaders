@@ -18,6 +18,8 @@ public class Invader : MonoBehaviour
 
     public int scoreValue;
 
+    private bool isDying = false;
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -36,6 +38,8 @@ public class Invader : MonoBehaviour
 
     private void AnimateSprite()
     {
+        if (isDying) return;
+
         _animationFrame++;
         if (_animationFrame >= animationSprites.Length - 1)
         {
@@ -50,9 +54,8 @@ public class Invader : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Laser"))
         {
             ScoreManager.instance.AddPoints(scoreValue);
-            this.killed?.Invoke(); //null-safe invoke
+            this.killed?.Invoke(); // Null-safe invoke
 
-            _spriteRenderer.sprite = this.animationSprites[2];
             _audioSource.PlayOneShot(deathSound);
 
             Destroy(other.gameObject);
@@ -60,15 +63,23 @@ public class Invader : MonoBehaviour
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(explosion, 2.0f);
 
+            isDying = true;
+            CancelInvoke(nameof(AnimateSprite));
 
-            //a short coroutine that waits, then disables the invader
+            _spriteRenderer.sprite = this.animationSprites[animationSprites.Length - 1];
+            GetComponent<Collider2D>().enabled = false; // disables collision
+            
+
             StartCoroutine(DeathSequence());
         }
     }
 
     private IEnumerator DeathSequence()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+        _spriteRenderer.enabled = false; //hides sprite
+        yield return new WaitForSeconds(deathSound.length - 0.5f);
         this.gameObject.SetActive(false);
     }
+
 }

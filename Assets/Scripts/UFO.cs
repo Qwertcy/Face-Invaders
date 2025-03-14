@@ -8,6 +8,20 @@ public class UFO : MonoBehaviour
 
     private int scoreValue => Random.Range(20, 51) * 10;
 
+    public AudioClip runningSound;
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            // If none found, create one
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+        }
+    }
+
 
     private void Start()
     {
@@ -20,6 +34,7 @@ public class UFO : MonoBehaviour
         {
             yield return new WaitForSeconds(15.0f);
             // determine spawn position
+            _audioSource.PlayOneShot(runningSound);
             float spawnX = movingRight ? Camera.main.ViewportToWorldPoint(new Vector3(-0.1f, 0, 0)).x //gets position slightly outside the screen to the left
                                        : Camera.main.ViewportToWorldPoint(new Vector3(1.1f, 0, 0)).x; //gets position slightly outside the screen to the right
 

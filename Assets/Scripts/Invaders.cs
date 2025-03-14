@@ -22,8 +22,20 @@ public class Invaders : MonoBehaviour
 
     public float missileAttackRate = 0.5f;
 
+    public AudioClip omgSound;
+    private AudioSource _audioSource;
+
+    bool isShooting = true;
+
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            // If none found, create one
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+        }
         for (int row = 0; row < this.rows; row++)
         {
             float width = spacing * (this.cols - 1);
@@ -85,7 +97,7 @@ public class Invaders : MonoBehaviour
         this.amountKilled++;
         if (this.amountKilled >= this.totalInvaders)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.LoadScene("Credits");
         }
     }
 
@@ -101,8 +113,14 @@ public class Invaders : MonoBehaviour
             if(Random.value < (1.0f/ (float) this.amountAlive)) //chance lower with more enemies
             {
                 Instantiate(this.missilePrefab, invader.position, Quaternion.identity); //missile prefab shot from invader
+                if (isShooting)
+                {
+                _audioSource.PlayOneShot(omgSound);
+                isShooting = false;
+                }
                 break; //only 1 missile fired at a time. Fire rate can be adjusted
             }
         }
+        isShooting = true;
     }
 }

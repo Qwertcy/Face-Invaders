@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +12,10 @@ public class Player : MonoBehaviour
     private bool _laserActive;
 
     public AudioClip laserSound;
+    public AudioClip deathSound;
     private AudioSource _audioSource;
+
+    public GameObject explosionPrefab;
 
     private void Awake()
     {
@@ -58,10 +62,28 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Collision detected with: " + other.gameObject.name);
+
         if (other.gameObject.layer == LayerMask.NameToLayer("Invader") ||
             other.gameObject.layer == LayerMask.NameToLayer("Missile"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(explosion, 2.0f);
+
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+
+            // Start coroutine to delay scene change
+            StartCoroutine(DelayedSceneLoad());
         }
     }
+
+    private IEnumerator DelayedSceneLoad()
+    {
+        _audioSource.PlayOneShot(deathSound);
+        yield return new WaitForSeconds(5f); // Adjust delay to match explosion duration
+        Debug.Log("Scene change triggered!");
+        SceneManager.LoadScene("Credits");
+    }
+
 }
